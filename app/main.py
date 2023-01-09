@@ -1,8 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+import crud
+import models
+import schemas
+from database import SessionLocal, engine
+import os
+
+#print(os.getcwd())
+#print(os.listdir())
+
+if not os.path.exists('.\sqlitedb'):
+    os.makedirs('.\sqlitedb')
+
+#"sqlite:///./sqlitedb/sqlitedata.db"
+models.Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
-
 
 
 class Recipe(BaseModel):
