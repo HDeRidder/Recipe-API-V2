@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Recipe App</title>
+  </head>
+  <body>
+    <h1>Recipes</h1>
+    <ul x-data="{ recipes: [] }">
+      <!-- Fetch the list of recipes from the API -->
+      <template x-for="recipe in recipes">
+        <li>
+          <h2 x-text="recipe.name"></h2>
+          <p>Cuisine: <span x-text="recipe.cuisine"></span></p>
+          <p>Cook time: <span x-text="recipe.cook_time"></span> minutes</p>
+        </li>
+      </template>
+      <script>
+        const apiUrl = 'http://localhost:8000/recipes';
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(recipes => {
+            // Update the list of recipes in the component's state
+            this.recipes = recipes;
+          });
+      </script>
+    </ul>
+  </body>
+</html>
