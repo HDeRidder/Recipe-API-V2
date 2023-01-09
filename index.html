@@ -1,28 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html xmlns:x-on="http://www.w3.org/1999/xhtml">
   <head>
-    <title>My Recipe App</title>
+    <title>Recipes API</title>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>Recipes</h1>
-    <ul x-data="{ recipes: [] }">
-      <!-- Fetch the list of recipes from the API -->
-      <template x-for="recipe in recipes">
-        <li>
-          <h2 x-text="recipe.name"></h2>
-          <p>Cuisine: <span x-text="recipe.cuisine"></span></p>
-          <p>Cook time: <span x-text="recipe.cook_time"></span> minutes</p>
-        </li>
-      </template>
-      <script>
-        const apiUrl = 'http://localhost:8000/recipes';
-        fetch(apiUrl)
+    <div x-data="{ recipes: [] }">
+      <button @click="fetchRecipes()">Fetch Recipes</button>
+      <ul>
+        <template x-for="recipe in recipes">
+          <li>{{ recipe.name }}</li>
+        </template>
+      </ul>
+    </div>
+
+    <script>
+      function fetchRecipes() {
+        fetch("/recipes")
           .then(response => response.json())
           .then(recipes => {
-            // Update the list of recipes in the component's state
             this.recipes = recipes;
           });
-      </script>
-    </ul>
+      }
+    </script>
+  <h1>Add a new Recipe</h1>
+  <form x-data="{ name: '', diet: '', ingredients: '', instructions: '', cuisine: '', cook_time: '' }" x-on:submit.prevent="
+  fetch('/recipes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: name,
+      diet: diet,
+      ingredients: ingredients,
+      instructions: instructions,
+      cuisine: cuisine,
+      cook_time: cook_time,
+    }),
+  }).then(response => response.json())
+  .then(data => {
+    console.log(data)
+  })"
+>
+  <label>
+    Name:
+    <input type="text" x-model="name" />
+  </label>
+  <br />
+  <label>
+    Diet:
+    <input type="text" x-model="diet" />
+  </label>
+  <br />
+  <label>
+    Ingredients:
+    <input type="text" x-model="ingredients" />
+  </label>
+  <br />
+  <label>
+    Instructions:
+    <input type="text" x-model="instructions" />
+  </label>
+  <br />
+  <label>
+    Cuisine:
+    <input type="text" x-model="cuisine" />
+  </label>
+  <br />
+  <label>
+    Cook Time:
+    <input type="number" x-model="cook_time" />
+  </label>
+  <br />
+  <button type="submit">Add Recipe</button>
+</form>
+
   </body>
 </html>
+
