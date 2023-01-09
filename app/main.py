@@ -4,6 +4,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
+
 class Recipe(BaseModel):
     id: int
     name: str
