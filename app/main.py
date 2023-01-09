@@ -67,11 +67,11 @@ recipes = [
 
 #Recipe endpoints
 
-@app.get("/recipes")
+@app.get("/recipes", response_model=schemas.Recipe)
 def read_recipes():
     return recipes
 
-@app.get("/recipes/{id}")
+@app.get("/recipes/{id}", response_model=schemas.Recipe)
 def read_recipe(id: int):
     for recipe in recipes:
         if recipe.id == id:

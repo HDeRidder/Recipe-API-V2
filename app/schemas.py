@@ -1,5 +1,21 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+class RecipeBase(BaseModel):
+    name: str = Field(..., max_length=255)
+    diet: str = Field(..., max_length=255)
+    ingredients: str = Field(..., max_length=255)
+    instructions: str = Field(..., max_length=10000)
+    cuisine: str = Field(..., max_length=255)
+    cook_time: int = Field(..., ge=0)
+
+class RecipeCreate(RecipeBase):
+    pass
+
+class Recipe(RecipeBase):
+    id: int
+
+    class Config:
+        orm_mode = True
 
 class ItemBase(BaseModel):
     title: str

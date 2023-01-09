@@ -24,3 +24,14 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")
+
+class Recipe(Base):
+    __tablename__ = 'recipes'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    diet = Column(String)
+    ingredients = Column(String)
+    instructions = Column(String)
+    cuisine = Column(String)
+    cook_time = Column(Integer)
