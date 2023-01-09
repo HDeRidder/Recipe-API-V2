@@ -78,6 +78,7 @@ def read_recipe(id: int):
             return recipe
     return {"error": "Recipe not found"}
 
+
 @app.get("/recipes/cuisine/{cuisine}")
 def read_recipes_by_cuisine(cuisine: str):
     result = []
